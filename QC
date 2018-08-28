@@ -1,0 +1,84 @@
+--Header record count
+select count(*) from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_header_20180824;
+
+--Patient record count
+select count(*) from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_patient_20180824;
+
+--Dx record count
+select count(*) from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_diagnosis_20180824;
+
+--Procedure record count
+select count(*) from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_procedure_20180824;
+
+--Provider record count
+select count(*) from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_provider_20180824;
+
+--Payer record count
+select count(*) from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_payer_20180824;
+
+--Header patient count
+select count(distinct encrypted_key_1||encrypted_key_2) from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_header_20180824;
+
+--count of patients from procedure table
+select count(distinct encrypted_key_1||encrypted_key_2) from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_procedure_20180824;
+
+--count of patients with Prevymis NDC
+select count(distinct encrypted_key_1||encrypted_key_2) 
+from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_procedure_20180824 
+where ndc in ('00006307502','00006307504','00006307602','00006307604','00006500301','00006500401');
+
+--count of claims with Prevymis NDC
+select count(distinct claim_number) 
+from project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_procedure_20180824 
+where ndc in ('00006307502','00006307504','00006307602','00006307604','00006500301','00006500401');
+
+
+--Header field count
+describe table project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_header_20180824;
+
+--Patient field count
+describe table project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_patient_20180824;
+
+--Dx field count
+describe table project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_diagnosis_20180824;
+
+--Procedure field count
+describe table project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_procedure_20180824;
+
+--Provider field count
+describe table project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_provider_20180824;
+
+--Payer field count
+describe table project_analytics.merck_prevymis.MERCK_PREVYMIS_submits_payer_20180824;
+
+
+----------------------------Rx----------------------------
+
+--Rx record count
+select count(*) from project_analytics.training.MERK_RX_DX_ALL_CLAIMS_WITH_PLAN_23082018;
+
+--Rx patient count
+select count(distinct encrypted_key_1||encrypted_key_2) from project_analytics.training.MERK_RX_DX_ALL_CLAIMS_WITH_PLAN_23082018;
+
+--count of patients with Prevymis NDC
+select count(distinct encrypted_key_1||encrypted_key_2) 
+from project_analytics.training.MERK_RX_DX_ALL_CLAIMS_WITH_PLAN_23082018
+where product_or_service_id in ('00006307502','00006307504','00006307602','00006307604','00006500301','00006500401');
+
+--count of claims with Prevymis NDC
+select count(distinct claim_number) 
+from project_analytics.training.MERK_RX_DX_ALL_CLAIMS_WITH_PLAN_23082018
+where product_or_service_id in ('00006307502','00006307504','00006307602','00006307604','00006500301','00006500401');
+
+--Rx field count
+describe table project_analytics.training.MERK_RX_DX_ALL_CLAIMS_WITH_PLAN_23082018;
+
+--Records by response code
+select count(*), response_code from project_analytics.training.MERK_RX_DX_ALL_CLAIMS_WITH_PLAN_23082018
+group by response_code;
+
+--count of patients with Prevymis NDC + paid claim
+select count(distinct encrypted_key_1||encrypted_key_2) 
+from project_analytics.training.MERK_RX_DX_ALL_CLAIMS_WITH_PLAN_23082018
+where product_or_service_id in ('00006307502','00006307504','00006307602','00006307604','00006500301','00006500401')
+and upper(response_code) = 'P';
